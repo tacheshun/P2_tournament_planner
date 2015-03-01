@@ -12,7 +12,7 @@ git clone git@github.com:tacheshun/P2_tournament_planner.git
 - The test cases can be run by entering vagrant machine and executing ```tournament_test.py``` like so:
 ```
 vagrant ssh
-cd /vagrant/p2_tournament_planner/tournament
+cd /vagrant/tournament
 python tournament_test.py
 ``` 
 
