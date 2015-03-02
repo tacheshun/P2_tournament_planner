@@ -1,6 +1,7 @@
 vagrant/.vagrant/
 vagrant/forum/*
 tournament/tournament.pyc
+catalog/
 =======
 # Byte-compiled / optimized / DLL files
 __pycache__/
