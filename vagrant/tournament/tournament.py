@@ -4,11 +4,14 @@
 #
 import psycopg2
 import bleach
-import pprint
 
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
-    return psycopg2.connect("dbname=tournament")
+    try:
+        return psycopg2.connect("dbname=tournament")
+    except Exception, e:
+        raise e
+     
 
 
 def deleteMatches():
@@ -35,6 +38,9 @@ def countPlayers():
     c = db.cursor()
     c.execute("select count(*) from players")
     result = c.fetchall()
+    db.commit()
+    db.close()
+
     return int(result[0][0])
 
 
@@ -73,6 +79,8 @@ def playerStandings():
     query = "select players.id, players.name, winner.winner, total.total from players left join (select players.id, count(winner) as winner from players left join matches on players.id = matches.winner group by players.id) as winner on players.id = winner.id left join (select players.id, count(players.id) as total from players join matches on (players.id = matches.winner or players.id = matches.loser) group by players.id) as total on players.id = total.id order by winner desc;"
     c.execute(query)
     query_result = c.fetchall()
+    db.commit()
+    db.close()
     players = [[int(row[0]), str(row[1]), int(row[2]), newPlayerCheck(row[3])] for row in query_result]
 
     return players
